@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Penghitung Kalori & Protein Harian</title>
+
+  <!-- Tailwind (CDN) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body class="bg-gradient-to-b from-gray-100 to-gray-200 text-gray-900 min-h-screen">
+  <div class="max-w-4xl mx-auto mt-8 bg-white p-6 rounded-2xl card fade-in">
+    <h1 class="text-2xl font-bold text-center mb-6 text-blue-700">🍱 Penghitung Kalori & Protein Harian</h1>
+
+    <!-- Data Pengguna -->
+    <section class="border-b pb-4 mb-5">
+      <h2 class="text-lg font-semibold mb-3">📋 Data Pengguna</h2>
+      <div class="grid grid-cols-2 gap-3">
+        <select id="gender" class="border p-2 rounded">
+          <option value="">Jenis Kelamin</option>
+          <option value="pria">Pria</option>
+          <option value="wanita">Wanita</option>
+        </select>
+        <input id="age" type="number" placeholder="Usia (tahun)" class="border p-2 rounded">
+        <input id="weight" type="number" placeholder="Berat (kg)" class="border p-2 rounded">
+        <input id="height" type="number" placeholder="Tinggi (cm)" class="border p-2 rounded">
+      </div>
+
+      <div class="mt-3">
+        <select id="activity" class="border rounded w-full p-2 mb-2">
+          <option value="">Pilih Aktivitas</option>
+          <option value="1.2">Sangat ringan</option>
+          <option value="1.375">Ringan (1–3x/minggu)</option>
+          <option value="1.55">Sedang (3–5x/minggu)</option>
+          <option value="1.725">Berat (6–7x/minggu)</option>
+          <option value="1.9">Sangat berat</option>
+        </select>
+        <select id="goal" class="border rounded w-full p-2">
+          <option value="">Pilih Tujuan</option>
+          <option value="defisit">Defisit (turun berat)</option>
+          <option value="maintenance">Stabil (maintenance)</option>
+          <option value="surplus">Surplus (naik berat)</option>
+        </select>
+      </div>
+
+      <button id="calcBtn" class="mt-4 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded w-full font-semibold">Hitung Kebutuhan Harian</button>
+
+      <div class="text-center mt-3 font-semibold text-blue-700">
+        <p id="dailyNeed"></p>
+        <p id="proteinNeed"></p>
+      </div>
+    </section>
+
+    <!-- Input makanan -->
+    <section>
+      <h2 class="text-lg font-semibold mb-2">🥗 Input Makanan</h2>
+      <div class="flex gap-2 mb-3">
+        <input id="foodName" type="text" placeholder="Nama makanan (misal: nasi goreng)" class="flex-1 border rounded p-2">
+        <input id="foodGram" type="number" placeholder="Gram" class="w-24 border rounded p-2">
+        <button id="addBtn" class="bg-green-600 hover:bg-green-700 text-white px-4 rounded font-semibold">+</button>
+      </div>
+
+      <ul id="foodList" class="space-y-1 text-sm list-disc list-inside"></ul>
+
+      <div class="text-center mt-4">
+        <p class="text-lg font-semibold">Total Kalori: <span id="totalCalories" class="text-blue-700">0</span> kcal</p>
+        <p class="text-lg font-semibold">Total Protein: <span id="totalProtein" class="text-green-700">0</span> g</p>
+        <p id="status" class="mt-2 text-sm font-semibold"></p>
+        <button id="resetBtn" class="mt-3 bg-red-500 hover:bg-red-600 text-white py-1 px-3 rounded text-sm">Reset Semua</button>
+      </div>
+    </section>
+
+    <!-- Grafik progres -->
+    <section class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div>
+        <h2 class="text-lg font-semibold mb-2">📊 Grafik Kalori</h2>
+        <canvas id="calorieChart" height="100"></canvas>
+      </div>
+      <div>
+        <h2 class="text-lg font-semibold mb-2">💪 Grafik Protein</h2>
+        <canvas id="proteinChart" height="100"></canvas>
+      </div>
+    </section>
+  </div>
+
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
