@@ -15,128 +15,41 @@
     background: radial-gradient(circle at center, #000000 50%, #1a001f 100%);
     overflow: hidden;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
   }
 
-  /* Neon Heart */
-  .neon-heart {
-    position: relative;
-    width: 200px;
-    height: 180px;
-    transform: rotate(-45deg);
-    animation: pulse 1.5s ease-in-out infinite;
-    z-index: 2;
-  }
-
-  .neon-heart::before,
-  .neon-heart::after {
-    content: '';
-    position: absolute;
+  /* Bentuk hati dari SVG */
+  svg {
     width: 200px;
     height: 200px;
-    border-radius: 50%;
-    background: radial-gradient(circle at 30% 30%, #ff0099, #ff3366, transparent 70%);
-    animation: glow 2s ease-in-out infinite alternate;
+    filter: drop-shadow(0 0 20px #ff00cc);
+    animation: beat 1.2s ease-in-out infinite;
   }
 
-  .neon-heart::after {
-    top: 0;
-    left: 100px;
+  path {
+    fill: none;
+    stroke: #ff0099;
+    stroke-width: 4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 1500;
+    stroke-dashoffset: 1500;
+    animation: draw 3s ease forwards, glow 2s ease-in-out infinite alternate;
   }
 
-  .neon-heart::before {
-    top: -100px;
-    left: 0;
+  @keyframes draw {
+    to {
+      stroke-dashoffset: 0;
+    }
   }
 
-  @keyframes pulse {
+  @keyframes beat {
     0%, 100% {
-      transform: rotate(-45deg) scale(1);
+      transform: scale(1);
       filter: drop-shadow(0 0 15px #ff0099);
     }
     50% {
-      transform: rotate(-45deg) scale(1.15);
-      filter: drop-shadow(0 0 35px #ff4da6);
-    }
-  }
-
-  @keyframes glow {
-    from { opacity: 0.6; filter: blur(2px); }
-    to { opacity: 1; filter: blur(6px); }
-  }
-
-  /* I ❤️ YOU text */
-  h1 {
-    color: #ff99cc;
-    font-family: "Poppins", sans-serif;
-    font-size: 34px;
-    letter-spacing: 4px;
-    margin-top: 50px;
-    text-shadow: 0 0 15px #ff1a75, 0 0 30px #ff66b2;
-    overflow: hidden;
-    border-right: 3px solid rgba(255, 255, 255, 0.75);
-    white-space: nowrap;
-    width: 0;
-    animation: typing 3s steps(8) 1s forwards, blink 0.6s step-end infinite alternate;
-  }
-
-  @keyframes typing {
-    from { width: 0; }
-    to { width: 10ch; }
-  }
-
-  @keyframes blink {
-    50% { border-color: transparent; }
-  }
-
-  /* Floating hearts */
-  .particle {
-    position: absolute;
-    width: 10px;
-    height: 10px;
-    background: radial-gradient(circle, #ff66b2 0%, transparent 70%);
-    border-radius: 50%;
-    opacity: 0.8;
-    animation: float 5s linear infinite;
-  }
-
-  @keyframes float {
-    0% {
-      transform: translateY(0) scale(1);
-      opacity: 0.8;
-    }
-    100% {
-      transform: translateY(-100vh) scale(1.5);
-      opacity: 0;
-    }
-  }
-</style>
-</head>
-<body>
-
-<div class="neon-heart"></div>
-<h1>I ❤️ YOU</h1>
-
-<script>
-  // Buat efek partikel love kecil beterbangan
-  const body = document.body;
-  function createParticle() {
-    const p = document.createElement('div');
-    p.classList.add('particle');
-    p.style.left = Math.random() * window.innerWidth + 'px';
-    p.style.animationDuration = 3 + Math.random() * 4 + 's';
-    p.style.width = p.style.height = Math.random() * 8 + 4 + 'px';
-    body.appendChild(p);
-
-    setTimeout(() => {
-      p.remove();
-    }, 7000);
-  }
-
-  setInterval(createParticle, 150);
-</script>
-
-</body>
-</html>  
+      transform: scale(1.1);
+      filter: drop-shadow(0 0 40px #ff33aa);
