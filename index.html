@@ -3,48 +3,120 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Love Animation 💖</title>
+<title>Dramatic Love Animation 💖</title>
 <style>
+  * { box-sizing: border-box; }
   body {
     margin: 0;
     height: 100vh;
-    background: radial-gradient(circle at center, #ffccd5 0%, #ff4d6d 80%);
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
+    flex-direction: column;
+    background: linear-gradient(45deg, #ff4d6d, #ff9ebb, #ffc8dd);
+    background-size: 400% 400%;
+    animation: bgMove 10s ease-in-out infinite;
   }
+
+  @keyframes bgMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
   canvas {
     background: transparent;
+    display: block;
+  }
+
+  h1 {
+    position: absolute;
+    bottom: 70px;
+    font-family: "Poppins", sans-serif;
+    font-size: 36px;
+    color: white;
+    text-shadow: 0 0 20px #ffb3c6, 0 0 40px #ff5c8a;
+    opacity: 0;
+    animation: fadeText 4s ease-in-out forwards;
+    animation-delay: 3s;
+  }
+
+  @keyframes fadeText {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 </style>
 </head>
 <body>
+
 <canvas id="loveCanvas" width="400" height="400"></canvas>
+<h1>I ❤️ You</h1>
 
 <script>
+// ==== Setup Canvas ====
 const canvas = document.getElementById("loveCanvas");
 const ctx = canvas.getContext("2d");
-
 let t = 0;
 
-function drawHeart(size) {
+// ==== Gambar bentuk hati ====
+function drawHeart(size, glow) {
   ctx.beginPath();
-  for (let i = 0; i < 2 * Math.PI; i += 0.01) {
+  for (let i = 0; i <= 2 * Math.PI; i += 0.01) {
     const x = 16 * Math.pow(Math.sin(i), 3);
-    const y = 13 * Math.cos(i) - 5 * Math.cos(2 * i) - 2 * Math.cos(3 * i) - Math.cos(4 * i);
+    const y = 13 * Math.cos(i)
+             - 5 * Math.cos(2 * i)
+             - 2 * Math.cos(3 * i)
+             - Math.cos(4 * i);
     ctx.lineTo(size * x + 200, -size * y + 200);
   }
   ctx.closePath();
-  ctx.fillStyle = "#ff0033";
-  ctx.shadowBlur = 25;
+  ctx.fillStyle = "rgba(255, 0, 70, 0.9)";
+  ctx.shadowBlur = glow;
   ctx.shadowColor = "#ff80aa";
   ctx.fill();
+  ctx.shadowBlur = 0; // reset glow
 }
 
+// ==== Efek partikel (love kecil) ====
+const particles = [];
+
+function createParticle() {
+  particles.push({
+    x: 200 + Math.random() * 100 - 50,
+    y: 350,
+    size: Math.random() * 10 + 5,
+    speedY: Math.random() * 1 + 0.5,
+    alpha: 1
+  });
+}
+
+function drawParticles() {
+  for (let i = particles.length - 1; i >= 0; i--) {
+    const p = particles[i];
+    ctx.beginPath();
+    ctx.fillStyle = `rgba(255, 150, 200, ${p.alpha})`;
+    ctx.arc(p.x, p.y, p.size / 2, 0, Math.PI * 2);
+    ctx.fill();
+    p.y -= p.speedY;
+    p.alpha -= 0.01;
+    if (p.alpha <= 0) particles.splice(i, 1);
+  }
+}
+
+// ==== Loop animasi ====
 function animate() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  const size = 8 + Math.sin(t) * 1.2; // efek detak
-  drawHeart(size);
+
+  // Hati berdetak & bersinar
+  const size = 10 + Math.sin(t) * 1.5;
+  const glow = 20 + Math.sin(t * 2) * 10;
+  drawHeart(size, glow);
+
+  // Partikel melayang
+  if (Math.random() < 0.25) createParticle();
+  drawParticles();
+
   t += 0.1;
   requestAnimationFrame(animate);
 }
